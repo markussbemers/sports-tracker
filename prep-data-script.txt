@@ -1,0 +1,26 @@
+// no actual need for this file 
+
+php artisan make:migration create_app_users_table
+php artisan make:migration create_coaches_table
+php artisan make:migration create_sports_types_table
+php artisan make:migration create_organization_leaders_table
+php artisan make:migration create_ogranizations_table
+php artisan make:migration create_teams_table
+php artisan make:migration create_team_players_table
+php artisan make:migration create_trainings_table
+php artisan make:migration create_team_player_attendence_trainings_table
+
+php artisan make:model AppUser
+php artisan make:model Coach
+php artisan make:model SportsType
+php artisan make:model OrganizationLeader
+php artisan make:model Organization
+php artisan make:model Team
+php artisan make:model TeamPlayer
+php artisan make:model Training
+php artisan make:model TeamPlayerAttendenceTraining
+
+
+
+
+
