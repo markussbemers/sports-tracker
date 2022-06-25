@@ -16,3 +16,17 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+Route::get('/sporta_veidi', function () {
+    return view('sporta_veidi');
+})->middleware(['auth'])->name('sporta_veidi');
+
+Route::get('/teams', function () {
+    return view('teams');
+})->middleware(['auth'])->name('teams');
+
+require __DIR__.'/auth.php';
