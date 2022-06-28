@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 use App\Models\Team;
@@ -20,6 +21,17 @@ class TeamController extends Controller
 		return view('teams', compact('teams'));
     }
 
+    public function getTeamsBySportsType($id)
+    {
+
+        $teams = DB::table("teams")
+                ->join("organizations", "teams.organizations_id", "=", "organizations.id")
+                ->where('organizations.sports_types_id', '=', $id)
+                ->get();
+
+		return view('teams', compact('teams'));
+    }
+
     /**
      * Show the form for creating a new resource.
      *
@@ -27,7 +39,11 @@ class TeamController extends Controller
      */
     public function create()
     {
-        
+        $sports_type = DB::table("sports_types")->get();
+  
+        // echo $sports_type;
+
+        return view('create_team',  compact('sports_type'));
     }
 
     /**

@@ -8,11 +8,11 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Sākuma lapa') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('sporta_veidi')" :active="request()->routeIs('sporta_veidi')">
+                    <x-nav-link :href="route('sports_types')" :active="request()->routeIs('sports_types')">
                         {{ __('Skatīt sporta veidus') }}
                     </x-nav-link>
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Pieteikties komandai') }}
+                    <x-nav-link :href="route('create_team')" :active="request()->routeIs('create_team')">
+                        {{ __('Izveidot komandu') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -89,3 +89,4 @@
         </div>
     </div>
 </nav>
+

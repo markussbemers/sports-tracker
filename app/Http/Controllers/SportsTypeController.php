@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\SportsType;
+
 use Illuminate\Http\Request;
 
 class SportsTypeController extends Controller
@@ -13,7 +15,8 @@ class SportsTypeController extends Controller
      */
     public function index()
     {
-        //
+        $sportsTypes = SportsType::all();
+        return view('sportsTypes', compact('sportsTypes'));
     }
 
     /**
