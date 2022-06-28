@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\SportsTypeController;
+use App\Http\Controllers\TeamController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,9 +23,11 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-Route::get('/sporta_veidi', function () {
-    return view('sporta_veidi');
-})->middleware(['auth'])->name('sporta_veidi');
+Route::get('sports-types', [SportsTypeController::class, 'index'])->middleware(['auth'])->name('sports_types');
+Route::get('sports-types/{id}', [TeamController::class, 'getTeamsBySportsType'])->middleware(['auth'])->name('sports-types/{id}');;
+
+Route::get('create_team', [TeamController::class, 'create'])->middleware(['auth'])->name('create_team');;
+
 
 Route::get('/teams', function () {
     return view('teams');
