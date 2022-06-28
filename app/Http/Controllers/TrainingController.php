@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+
 
 class TrainingController extends Controller
 {
@@ -13,7 +16,23 @@ class TrainingController extends Controller
      */
     public function index()
     {
-        //
+        // $username = Auth::user()->name;
+        $username = "test-username";
+
+        $id = DB::table("app_users")
+        ->select('id')
+        ->where('name', '=', $username)
+        ->get();
+
+        $id = $id[0] ?? null;
+
+        $trainings = DB::table("trainings")
+        ->join("teams", "trainings.team_id", "=", "teams.id")
+        ->join("team_players", "teams.id", "=", "team_players.teams_id")
+        ->where('team_players.app_users_id', '=', $id)
+        ->get();
+
+        return view('trainings',  compact('trainings'));
     }
 
     /**
