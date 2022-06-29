@@ -34,7 +34,19 @@ class OrganizationController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = array(
+            'name' => 'required|string|min:2|max:60|unique',
+        );        
+        $this->validate($request, $rules);
+
+        $organization = new Organization();
+        $organization->name = $request->name;
+        $organization->organization_leaders_id = $request->user()->id;
+        $organization->sports_types_id = (int)$request->sports_types_id;
+       
+        $organization->save();
+        return redirect()->route('create_organization');
+
     }
 
     /**

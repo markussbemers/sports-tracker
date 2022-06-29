@@ -34,7 +34,7 @@ class AppUserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**

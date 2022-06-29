@@ -54,7 +54,17 @@ class TeamController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $rules = array(
+            'name' => 'required|string|min:2|max:50|unique',
+            'organizations_id' => 'exists:id',
+        );        
+        $this->validate($request, $rules);
+        
+        $team = new Team();
+        $team->name = $request->name;
+        $team->save();
+        return redirect()->route('create_team');
+        
     }
 
     /**
