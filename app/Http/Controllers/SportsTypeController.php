@@ -29,6 +29,12 @@ class SportsTypeController extends Controller
         //
     }
 
+    public function getSportsTypesforOrganization()
+    {
+        $sportsTypes = SportsType::all();
+        return view('create_organization', compact('sportsTypes'));
+    }
+
     /**
      * Store a newly created resource in storage.
      *

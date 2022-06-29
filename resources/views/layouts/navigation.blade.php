@@ -14,6 +14,9 @@
                     <x-nav-link :href="route('create_team')" :active="request()->routeIs('create_team')">
                         {{ __('Izveidot komandu') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('create_organization')" :active="request()->routeIs('create_organization')">
+                        {{ __('Izveidot organizāciju') }}
+                    </x-nav-link>
                 </div>
             </div>
 
