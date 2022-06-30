@@ -37,8 +37,6 @@ class TeamController extends Controller
                 ->select("teams.name")
                 ->get();
 
-        echo $teams;
-
 		return view('teams', compact('teams'));
     }
     public function getTeamsByOrganizations($id)
@@ -114,7 +112,27 @@ class TeamController extends Controller
      */
     public function edit($id)
     {
-        //
+        $team = Team::where('id', $id)->first();
+
+        // cehck if you are the coach or organization leader
+        $name = Auth::user()->name;
+        $app_user = AppUser::where('name', $name)->first();
+
+        $organizations = DB::table("organizations")
+        ->join("organization_leaders", "organizations.organization_leaders_id", "=", "organization_leaders.id")
+        ->where('organizations.id', '=', $team->organizations_id)
+        ->select("organization_leaders.app_user_id")
+        ->get();
+        $organizations = $organizations[0] ?? null;
+
+        $coaches = DB::table("coaches")
+        ->where('id', '=', $team->coaches_id)
+        ->get();
+        $coaches = $coaches[0] ?? null;
+
+        if ($organizations->app_user_id == $app_user->id OR $coaches->app_user_id == $app_user->id) {
+            return view('edit_team', compact('team'));
+        }
     }
 
     /**
