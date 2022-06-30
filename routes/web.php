@@ -5,6 +5,7 @@ use App\Http\Controllers\SportsTypeController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\TrainingController;
+use App\Http\Controllers\LanguageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,20 +22,27 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/trainings', [TrainingController::class, 'index'])->middleware(['auth'])->name('trainings');
+require __DIR__.'/auth.php';
 
-Route::get('sports-types', [SportsTypeController::class, 'index'])->middleware(['auth'])->name('sports_types');
-Route::get('sports-types/{id}', [TeamController::class, 'getTeamsBySportsType'])->middleware(['auth'])->name('sports-types/{id}');
 
 Route::get('/teams', function () {
     return view('teams');
 })->middleware(['auth'])->name('teams');
 
 Route::resource('create_organization', OrganizationController::class);
+Route::resource('create_team', TeamController::class);
+
+
+Route::get('/trainings', [TrainingController::class, 'index'])->middleware(['auth'])->name('trainings');
+
+Route::get('sports-types', [SportsTypeController::class, 'index'])->middleware(['auth'])->name('sports_types');
+Route::get('sports-types/{id}', [TeamController::class, 'getTeamsBySportsType'])->middleware(['auth'])->name('sports-types/{id}');
+
 Route::get('create_organization', [OrganizationController::class, 'create'])->middleware(['auth'])->name('create_organization');
 
-Route::resource('create_team', TeamController::class);
 Route::get('create_team', [TeamController::class, 'create'])->middleware(['auth'])->name('create_team');
 
+Route::get('lang/{locale}',LanguageController::class);
 
-require __DIR__.'/auth.php';
+
+

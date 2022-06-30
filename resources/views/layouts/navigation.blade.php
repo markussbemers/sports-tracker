@@ -6,23 +6,36 @@
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                     <x-nav-link :href="route('trainings')" :active="request()->routeIs('trainings')">
-                        {{ __('Treniņi') }}
+                        {{ __('messages.Practice sessions') }}
                     </x-nav-link>
                     <x-nav-link :href="route('sports_types')" :active="request()->routeIs('sports_types')">
-                        {{ __('Skatīt sporta veidus') }}
+                        {{ __('messages.See sports types') }}
                     </x-nav-link>
                     <x-nav-link :href="route('create_team')" :active="request()->routeIs('create_team')">
-                        {{ __('Izveidot komandu') }}
+                        {{ __('messages.Create a team') }}
                     </x-nav-link>
                     <x-nav-link :href="route('create_organization')" :active="request()->routeIs('create_organization')">
-                        {{ __('Izveidot organizāciju') }}
+                        {{ __('messages.Create an organization') }}
                     </x-nav-link>
+                    <x-nav-link :href="url('lang/lv')">
+                        LV
+                    </x-nav-link>
+                    <x-nav-link :href="url('lang/en')">
+                        EN
+                    </x-nav-link>                    
                 </div>
             </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ml-6">
                 <x-dropdown align="right" width="48">
+
+                    <x-slot name="trigger">
+                        <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
+                            
+                        </button>
+                    </x-slot>
+
                     <x-slot name="trigger">
                         <button class="flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300 focus:outline-none focus:text-gray-700 focus:border-gray-300 transition duration-150 ease-in-out">
                             <div>{{ Auth::user()->name }}</div>
@@ -39,11 +52,10 @@
                         <!-- Authentication -->
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
-
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                {{ __('messages.Log Out') }}
                             </x-dropdown-link>
                         </form>
                     </x-slot>
@@ -66,7 +78,22 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('trainings')" :active="request()->routeIs('trainings')">
-                {{ __('Trainings') }}
+                {{ __('messages.Practice sessions') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('sports_types')" :active="request()->routeIs('sports_types')">
+                {{ __('messages.See sports types') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('create_team')" :active="request()->routeIs('create_team')">
+                {{ __('messages.Create a team') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('create_organization')" :active="request()->routeIs('create_organization')">
+                {{ __('messages.Create an organization') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="url('lang/lv')">
+                LV
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="url('lang/en')">
+                EN
             </x-responsive-nav-link>
         </div>
 
@@ -81,11 +108,10 @@
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf
-
                     <x-responsive-nav-link :href="route('logout')"
                             onclick="event.preventDefault();
                                         this.closest('form').submit();">
-                        {{ __('Log Out') }}
+                        {{ __('messages.Log Out') }}
                     </x-responsive-nav-link>
                 </form>
             </div>
