@@ -56,14 +56,10 @@ class OrganizationController extends Controller
         $app_user = AppUser::where('name', $name)->first();
         $organization_leaders = $app_user->organization_leaders()->create();
 
-        echo $organization_leaders;
-
-        $sportsType = SportsType::where('type', $request->sports_type)->first();
-
         $organization = new Organization();
         $organization->name = $request->name;
         $organization->organization_leaders_id = $organization_leaders->id;
-        $organization->sports_types_id = $sportsType->id;
+        $organization->sports_types_id = $request->sports_type_id;
 
         $organization->save();
         return redirect()->route('create_team');

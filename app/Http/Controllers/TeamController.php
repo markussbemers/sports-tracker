@@ -33,6 +33,8 @@ class TeamController extends Controller
                 ->select("teams.name")
                 ->get();
 
+        echo $teams;
+
 		return view('teams', compact('teams'));
     }
 
@@ -45,6 +47,7 @@ class TeamController extends Controller
         $organizations = DB::table("organizations")
         ->join("organization_leaders", "organizations.organization_leaders_id", "=", "organization_leaders.id")
         ->where('organization_leaders.app_user_id', '=', $app_user->id)
+        ->select("organizations.id","organizations.name")
         ->get();
 
         return view('create_team', compact('organizations'));
@@ -64,18 +67,16 @@ class TeamController extends Controller
         );        
         $this->validate($request, $rules);
 
-        $organization = Organization::where("name", $request->organization_name)->first();
-
         $name = Auth::user()->name;
         $app_user = AppUser::where('name', $name)->first();
         $coaches = $app_user->coaches()->create();
 
         $team = new Team();
         $team->name = $request->name;
-        $team->organizations_id = $organization->id;
+        $team->organizations_id = $request->organization_id;
         $team->coaches_id = $coaches->id;
         $team->save();
-        return redirect()->route('dashboard');
+        return redirect()->route('trainings');
     }
 
     /**

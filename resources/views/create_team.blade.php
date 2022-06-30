@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Izveidot komandu') }}
+            {{ __('messages.Create a team') }}
         </h2>
     </x-slot>
 
@@ -10,10 +10,10 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <form method="POST" action="{{ action([App\Http\Controllers\TeamController::class, 'store']) }}">
                 @csrf
-                <label for="organization">Choose organization:</label>
-                        <select id="organization" name="organization_name">
+                <label for="organization">{{ __('messages.Choose an organization') }}:</label>
+                        <select id="organization" name="organization_id">
                         @foreach ($organizations as $organization)
-                            <option value={{$organization->name}}>{{$organization->name}}</option>
+                            <option value={{$organization->id}}>{{$organization->name}}</option>
                         @endforeach
                         </select>
                     </div>
@@ -23,7 +23,7 @@
                         <x-input id="name" class="block mt-1 w-full" type="text" name="name" required autofocus/>
                     </div>
                     <x-button class="ml-3 mt-3">
-                        {{ __('Create Team') }}
+                        {{ __('messages.Create a team') }}
                     </x-button>
                 </form>        
             </div>
