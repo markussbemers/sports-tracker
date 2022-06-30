@@ -18,9 +18,9 @@
                         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
 
                         <label for="sports_type">Choose a sports type:</label>
-                            <select id="sports_type" name="sports_type">
+                            <select id="sports_type" name="sports_type_id">
                             @foreach ($sportsTypes as $sportsType)
-                                <option value={{$sportsType->type}}>{{$sportsType->type}}</option>
+                                <option value={{$sportsType->id}}>{{$sportsType->type}}</option>
                             @endforeach
                             </select>
                         </div>

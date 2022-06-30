@@ -11,9 +11,9 @@
                 <form method="POST" action="{{ action([App\Http\Controllers\TeamController::class, 'store']) }}">
                 @csrf
                 <label for="organization">Choose organization:</label>
-                        <select id="organization" name="organization_name">
+                        <select id="organization" name="organization_id">
                         @foreach ($organizations as $organization)
-                            <option value={{$organization->name}}>{{$organization->name}}</option>
+                            <option value={{$organization->id}}>{{$organization->name}}</option>
                         @endforeach
                         </select>
                     </div>
