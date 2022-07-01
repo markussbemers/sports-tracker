@@ -1,11 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+
 use App\Http\Controllers\SportsTypeController;
 use App\Http\Controllers\TeamController;
 use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\TrainingController;
 use App\Http\Controllers\LanguageController;
+use App\Http\Controllers\AppUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,8 +32,11 @@ Route::get('/teams', function () {
 })->middleware(['auth'])->name('teams');
 
 Route::resource('create_organization', OrganizationController::class);
+Route::resource('organizations', OrganizationController::class);
 Route::resource('create_team', TeamController::class);
 
+Route::get('organizations', [OrganizationController::class, 'index'])->middleware(['auth'])->name('organizations');
+Route::get('teams/organizations/{id}', [TeamController::class, 'getTeamsByOrganizations'])->middleware(['auth'])->name('teams/organizations/{id}');
 
 Route::get('/trainings', [TrainingController::class, 'index'])->middleware(['auth'])->name('trainings');
 

@@ -16,7 +16,7 @@ class TrainingController extends Controller
      */
     public function index()
     {
-        // $username = Auth::user()->name;
+        //$username = Auth::user()->name;
         $username = "test-username";
 
         $id = DB::table("app_users")

@@ -17,6 +17,9 @@
                     <x-nav-link :href="route('create_organization')" :active="request()->routeIs('create_organization')">
                         {{ __('messages.Create an organization') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('organizations')" :active="request()->routeIs('organizations')">
+                        {{ __('messages.My Organizations') }}
+                    </x-nav-link>
                     <x-nav-link :href="url('lang/lv')">
                         LV
                     </x-nav-link>
@@ -88,6 +91,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('create_organization')" :active="request()->routeIs('create_organization')">
                 {{ __('messages.Create an organization') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('organizations')" :active="request()->routeIs('organizations')">
+                {{ __('messages.My Organizations') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="url('lang/lv')">
                 LV

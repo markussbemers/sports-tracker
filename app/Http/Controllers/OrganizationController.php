@@ -4,7 +4,14 @@ namespace App\Http\Controllers;
 use App\Models\SportsType;
 use App\Models\AppUser;
 use App\Models\Organization;
+use App\Models\OrganizationLeader;
+use App\Models\Team;
+use App\Models\Training;
+use App\Models\Coach;
+use App\Models\TeamPlayerAttendanceTraining;
+use App\Models\TeamPlayer;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 
@@ -17,7 +24,27 @@ class OrganizationController extends Controller
      */
     public function index()
     {
-        //
+        $name = Auth::user()->name;
+        $app_user = AppUser::where('name', $name)->first();
+
+        $organizations = DB::table("organizations")
+        ->join("organization_leaders", "organizations.organization_leaders_id", "=", "organization_leaders.id")
+        ->where('organization_leaders.app_user_id', '=', $app_user->id)
+        ->select("*")
+        ->get();
+        
+        /*
+        $organizations = DB::table("organizations")
+        ->join("organization_leaders", "organizations.organization_leaders_id", "=", "organization_leaders.id")
+        ->join("app_users", "organization_leaders.app_user_id", "=", "app_users.id")
+        ->where('app_users.id', '=', $id)
+        ->select("organizations.name")
+        ->get();
+        */
+        
+
+
+        return view('organizations',  compact('organizations'));
     }
 
     /**
@@ -107,6 +134,38 @@ class OrganizationController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::table("organization_leaders")
+        ->join("organizations","organization_leaders.id","=","organizations.organization_leaders_id")
+        ->where("organizations.id", "=", $id)->delete();
+        
+        DB::table("coaches")
+        ->join("teams", "coaches.id","=","teams.coaches_id")
+        ->join("organizations","teams.organizations_id","=","organizations.id")
+        ->where("organizations.id", "=", $id)->delete();
+       
+        DB::table("team_player_attendance_trainings")
+        ->join("trainings","team_player_attendance_trainings.training_id","=","trainings.id")
+        ->join("teams","trainings.team_id","=","teams.id")
+        ->join("organizations","teams.organizations_id","=","organizations.id")
+        ->where("organizations.id","=", $id)->delete();
+        
+        DB::table("trainings")
+        ->join("teams","trainings.team_id","=","teams.id")
+        ->join("organizations","teams.organizations_id","=","organizations.id")
+        ->where("organizations.id","=", $id)->delete();
+        
+        DB::table("team_players")
+        ->join("teams","team_players.teams_id","=", "teams.id")
+        ->join("organizations","teams.organizations_id","=","organizations.id")
+        ->where("organizations.id","=", $id)->delete();
+        
+        $team_id = DB::table("teams")
+        ->join("organizations","teams.organizations_id","=","organizations.id")
+        ->where("organizations.id","=", $id)->delete();
+        
+        Organization::findOrFail($id)->delete();
+
+        return view('organizations');
+
     }
 }
