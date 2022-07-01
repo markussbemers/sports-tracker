@@ -33,17 +33,6 @@ class OrganizationController extends Controller
         ->select("*")
         ->get();
         
-        /*
-        $organizations = DB::table("organizations")
-        ->join("organization_leaders", "organizations.organization_leaders_id", "=", "organization_leaders.id")
-        ->join("app_users", "organization_leaders.app_user_id", "=", "app_users.id")
-        ->where('app_users.id', '=', $id)
-        ->select("organizations.name")
-        ->get();
-        */
-        
-
-
         return view('organizations',  compact('organizations'));
     }
 
