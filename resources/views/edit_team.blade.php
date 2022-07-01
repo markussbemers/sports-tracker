@@ -83,7 +83,20 @@
                     <ol>
                         @foreach ($trainings as $training)
                             <li>
-                                {{$training->start_date_and_time}}
+                                DATUMS: {{$training->start_date_and_time}}
+                                IERADĪSIES CILVĒKU SKAITS: @if (count($countTrainingAttend) > 0)
+                                                        @foreach ($countTrainingAttend as $attend)
+                                                        @if ($training->id == $attend->training_id)
+                                                                {{$attend->bodyCount}}
+                                                                @break
+                                                            @endif
+                                                            @if($loop->last)
+                                                                0
+                                                            @endif
+                                                        @endforeach
+                                                @else
+                                                    0
+                                                @endif
                             </li>
                         @endforeach
                     </ol>

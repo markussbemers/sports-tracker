@@ -16,23 +16,31 @@ class TrainingController extends Controller
      */
     public function index()
     {
-        //$username = Auth::user()->name;
-        $username = "test-username";
+        $username = Auth::user()->name;
 
         $id = DB::table("app_users")
-        ->select('id')
         ->where('name', '=', $username)
-        ->get();
+        ->select('id')
+        ->first();
 
-        $id = $id[0] ?? null;
+        $id = $id->id;
 
         $trainings = DB::table("trainings")
         ->join("teams", "trainings.team_id", "=", "teams.id")
         ->join("team_players", "teams.id", "=", "team_players.teams_id")
         ->where('team_players.app_users_id', '=', $id)
+        ->select('trainings.id', "teams.name", 'trainings.start_date_and_time')
         ->get();
 
-        return view('trainings',  compact('trainings'));
+        // echo $trainings;
+
+        $willAttend = DB::table("team_player_attendence_trainings")
+        ->where('app_users_id', '=', $id)
+        ->get();
+
+        //echo $willAttend;
+
+        return view('mytrainings',  compact('trainings', 'willAttend'));
     }
 
     /**
