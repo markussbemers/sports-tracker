@@ -13,12 +13,6 @@
                 @foreach ($teams as $team)
                     <div style="cursor: pointer" class="p-6 bg-white border-b border-gray-200" onclick='editTeam({{ $team->id }})'>
                         <div class="team-name">{{ $team->name }}
-                        <form method="POST" action="{{ action([App\Http\Controllers\TeamController::class, 'destroyTeam'], $team->id) }}">
-                            @csrf
-
-                                <x-button type="submit" value="delete">{{ __('messages.Delete') }}</x-button>
-
-                        </form>
                         </div>
                     </div>
                 @endforeach    

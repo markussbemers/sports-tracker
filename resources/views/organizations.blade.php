@@ -11,10 +11,6 @@
                 @foreach ($organizations as $organization)
                     <div style="cursor: pointer" class="p-6 bg-white border-b border-gray-200" onclick='showTeams({{ $organization->id }})'>
                         <div>{{ $organization->name }}</div>
-                        <form method="POST" action="{{ action([App\Http\Controllers\OrganizationController::class, 'destroy'], $organization->id)}}">
-                            @csrf @method('DELETE')
-                            <x-button type="submit" value="delete">{{ __('messages.Delete') }}</x-button>
-                        </form>
                     </div>
                 @endforeach   
             </div>

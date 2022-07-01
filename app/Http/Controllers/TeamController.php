@@ -353,21 +353,21 @@ class TeamController extends Controller
         $name = Auth::user()->name;
         $app_user = AppUser::where('name', $name)->first();
         
-        DB::table("coaches")
-        ->join("teams", "coaches.id","=","teams.coaches_id")
-        ->join("app_users","coaches.app_user_id","=","app_users.id")
-        ->where("coaches.app_user_id", "=", $app_user->id)
-        ->select("*")->delete()
-        ->first();
+        // DB::table("coaches")
+        // ->join("teams", "coaches.id","=","teams.coaches_id")
+        // ->join("app_users","coaches.app_user_id","=","app_users.id")
+        // ->where("coaches.app_user_id", "=", $app_user->id)
+        // ->select("*")->delete()
+        // ->first();
         
         /*
-        $attendance_training = DB::table("team_player_attendance_trainings")
-        ->join("trainings","team_player_attendance_trainings.training_id","=","trainings.id")
-        ->join("teams","trainings.team_id","=", "teams.id")
-        ->where("teams.id","=", $id)
-        ->select("*")
-        ->get();
-        TeamPlayerAttendanceTraining::findOrFail($attendance_training)->each()->delete();
+        // $attendance_training = DB::table("team_player_attendance_trainings")
+        // ->join("trainings","team_player_attendance_trainings.training_id","=","trainings.id")
+        // ->join("teams","trainings.team_id","=", "teams.id")
+        // ->where("teams.id","=", $id)
+        // ->select("*")
+        // ->get();
+        // TeamPlayerAttendanceTraining::findOrFail($attendance_training)->each()->delete();
 
         $trainings = DB::table("trainings")
         ->join("teams","trainings.team_id","=","teams.id")
