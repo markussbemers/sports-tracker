@@ -1,7 +1,7 @@
 ﻿<x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('messages.Organizations Teams') }}
+            {{ __('messages.Organization Teams') }}
         </h2>
     </x-slot>
 
@@ -11,10 +11,10 @@
                 @foreach ($teams as $team)
                     <div class="p-6 bg-white border-b border-gray-200">
                         <div class="team-name">{{ $team->name }}
-                            <form method="POST" action="{{ action([App\Http\Controllers\TeamController::class, 'delete'], $teams->id) }}">
-                            @csrf @method('DELETE')
-                                <x-button type="submit" value="delete">
-                            </form>
+                        <form method="POST" action="{{ action([App\Http\Controllers\TeamController::class, 'destroyTeam'], $team->id) }}">
+                            @csrf
+                                <x-button type="submit" value="delete">{{ __('messages.Delete') }}</x-button>
+                        </form>
                         </div>
                     </div>
                 @endforeach    

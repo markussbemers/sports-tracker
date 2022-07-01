@@ -33,17 +33,6 @@ class OrganizationController extends Controller
         ->select("*")
         ->get();
         
-        /*
-        $organizations = DB::table("organizations")
-        ->join("organization_leaders", "organizations.organization_leaders_id", "=", "organization_leaders.id")
-        ->join("app_users", "organization_leaders.app_user_id", "=", "app_users.id")
-        ->where('app_users.id', '=', $id)
-        ->select("organizations.name")
-        ->get();
-        */
-        
-
-
         return view('organizations',  compact('organizations'));
     }
 
@@ -134,38 +123,41 @@ class OrganizationController extends Controller
      */
     public function destroy($id)
     {
-        DB::table("organization_leaders")
-        ->join("organizations","organization_leaders.id","=","organizations.organization_leaders_id")
-        ->where("organizations.id", "=", $id)->delete();
         
         DB::table("coaches")
         ->join("teams", "coaches.id","=","teams.coaches_id")
         ->join("organizations","teams.organizations_id","=","organizations.id")
         ->where("organizations.id", "=", $id)->delete();
+
+        
+        /*
+        DB::table("organization_leaders")
+        ->join("organizations","organization_leaders.id","=","organizations.organization_leaders_id")
+        ->where("organization_leaders.id", "=", $id)->each()->delete();
        
         DB::table("team_player_attendance_trainings")
         ->join("trainings","team_player_attendance_trainings.training_id","=","trainings.id")
         ->join("teams","trainings.team_id","=","teams.id")
         ->join("organizations","teams.organizations_id","=","organizations.id")
-        ->where("organizations.id","=", $id)->delete();
+        ->where("organizations.id","=", $id)->each()->delete();
         
         DB::table("trainings")
         ->join("teams","trainings.team_id","=","teams.id")
         ->join("organizations","teams.organizations_id","=","organizations.id")
-        ->where("organizations.id","=", $id)->delete();
+        ->where("organizations.id","=", $id)->each()->delete();
         
         DB::table("team_players")
         ->join("teams","team_players.teams_id","=", "teams.id")
         ->join("organizations","teams.organizations_id","=","organizations.id")
-        ->where("organizations.id","=", $id)->delete();
+        ->where("organizations.id","=", $id)->each()->delete();
         
         $team_id = DB::table("teams")
         ->join("organizations","teams.organizations_id","=","organizations.id")
-        ->where("organizations.id","=", $id)->delete();
+        ->where("organizations.id","=", $id)->each()->delete();
         
         Organization::findOrFail($id)->delete();
-
-        return view('organizations');
+        */
+        return redirect('organizations');
 
     }
 }
