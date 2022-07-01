@@ -9,8 +9,11 @@ use App\Models\Training;
 use App\Models\Coach;
 use App\Models\Organization;
 use App\Models\AppUser;
-use App\Models\TeamPlayerAttendanceTraining;
+use App\Models\TeamPlayerAttendenceTraining;
 use App\Models\TeamPlayer;
+use App\Http\Controllers\TrainingController;
+
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -108,7 +111,7 @@ class TeamController extends Controller
             );
         } else {
 
-            $isAlready = TeamPlayer::where('app_users_id', '=', $app_user->id, 'AND', 'teams_id', '=', $request->team_id)->first();
+            $isAlready = TeamPlayer::where('app_users_id', $app_user->id)->where('teams_id', $request->team_id)->first();
             
             if ($isAlready !== null) {
                 return redirect()->action(
@@ -138,9 +141,66 @@ class TeamController extends Controller
 
         $training->save();
 
+        $players_default_go = DB::table("team_players")
+        ->where('teams_id', $request->team_id)
+        ->where("is_default_attending", "1")
+        ->select("app_users_id")
+        ->get();
+
+        foreach ($players_default_go as $player_id) {
+            $attendence = new TeamPlayerAttendenceTraining();
+            $attendence->app_users_id = $player_id->app_users_id;
+            $attendence->training_id = $training->id;
+            $attendence->save();
+        }
+
+
         return redirect()->action(
             [TeamController::class, 'edit'], ['id' => $request->team_id]
         );
+    }
+
+    public function willAttend($training_id)    {
+
+        $name = Auth::user()->name;
+        $app_user = AppUser::where('name', $name)->first();
+
+        $isAlready = DB::table("team_player_attendence_trainings")
+                ->where("training_id", $training_id)
+                ->where("app_users_id", $app_user->id)
+                ->select("app_users_id", "training_id")
+                ->first();
+
+        if ($isAlready === null) {
+
+            $attendence = new TeamPlayerAttendenceTraining();
+            $attendence->app_users_id = $app_user->id;
+            $attendence->training_id = $training_id;
+            $attendence->save();
+        }
+
+       return redirect()->action([TrainingController::class, 'index']);
+    }
+
+    public function wontAttend($training_id)    {
+        
+        $name = Auth::user()->name;
+        $app_user = AppUser::where('name', $name)->first();
+
+        $isAlready = DB::table("team_player_attendence_trainings")
+                ->where("training_id", $training_id)
+                ->where("app_users_id", $app_user->id)
+                ->select("app_users_id", "training_id")
+                ->first();
+
+        if ($isAlready !== null) {
+            DB::table("team_player_attendence_trainings")
+            ->where("training_id", $training_id)
+            ->where("app_users_id", $app_user->id)->delete();
+        }
+
+       return redirect()->action([TrainingController::class, 'index']);
+
     }
 
     /**
@@ -192,7 +252,12 @@ class TeamController extends Controller
 
         $trainings = DB::table("trainings")
         ->where('team_id', '=', $team->id)
-        ->select("start_date_and_time")
+        ->select("start_date_and_time", "id")
+        ->get();
+
+        $countTrainingAttend = DB::table("team_player_attendence_trainings")
+        ->select(DB::raw("training_id, count(training_id) as bodyCount"))
+        ->groupBy('training_id')
         ->get();
 
         $isCoach = $coaches->app_user_id == $app_user->id;
@@ -211,7 +276,7 @@ class TeamController extends Controller
 
 
         if ($isCoach OR $isOrganizationLeader) {
-            return view('edit_team', compact('team', 'coach', 'leader', 'message', 'team_players', 'message2', 'coaches', 'trainings'));
+            return view('edit_team', compact('team', 'coach', 'leader', 'message', 'team_players', 'message2', 'coaches', 'trainings', 'countTrainingAttend'));
         }
     }
 
@@ -276,7 +341,7 @@ class TeamController extends Controller
      */
     public function destroyPlayer($id, $team_id)
     {
-        TeamPlayer::where('app_users_id', '=', $id, 'AND', 'teams_id', '=', $team_id)->first()->delete();
+        TeamPlayer::where('app_users_id', $id)->where('teams_id', $team_id)->first()->delete();
         return redirect()->action(
             [TeamController::class, 'edit'], ['id' => $team_id, 'message' => 'Spēlētājs izdzēsts']
         );

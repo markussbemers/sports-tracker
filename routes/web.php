@@ -55,6 +55,10 @@ Route::post('destroy_player/{id}/{team_id?}', [TeamController::class, 'destroyPl
 Route::post('change_coach', [TeamController::class, 'changeCoach']);
 Route::post('add_training', [TeamController::class, 'addTraining']);
 
+Route::post('will_attend/{training_id?}', [TeamController::class, 'willAttend']);
+Route::post('wont_attend/{training_id?}', [TeamController::class, 'wontAttend']);
+
+
 require __DIR__.'/auth.php';
 
 Route::get('lang/{locale}',LanguageController::class);
