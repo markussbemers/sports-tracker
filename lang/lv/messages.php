@@ -46,4 +46,5 @@ return [
     'Team_id' => 'Komanda_id',
     'Current Coach' => 'Pašreizējais treneris',
     'New Coach Name' => 'Jauna trenera vārds',
+    'Playing Teams' => 'Spēlēšana komandās',
 ];
