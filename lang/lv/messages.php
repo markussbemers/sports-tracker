@@ -28,4 +28,7 @@ return [
     'Confirm Password' => 'Apstiprināt paroli',
     'Already registered?' => 'Jau pietiekušies?',
     'Profile' => 'Profils',
+    'Sports types' => 'Sporta veidi',
+    'My Organizations' => 'Manas organizācijas',
+    'Delete' => 'Izdzēst',
 ];

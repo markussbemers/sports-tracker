@@ -5,9 +5,13 @@ use Illuminate\Support\Facades\DB;
 
 use Illuminate\Http\Request;
 use App\Models\Team;
+use App\Models\Training;
 use App\Models\Coach;
 use App\Models\Organization;
 use App\Models\AppUser;
+use App\Models\TeamPlayerAttendanceTraining;
+use App\Models\TeamPlayer;
+
 use Illuminate\Support\Facades\Auth;
 
 
@@ -34,6 +38,17 @@ class TeamController extends Controller
                 ->get();
 
         echo $teams;
+
+		return view('teams', compact('teams'));
+    }
+    public function getTeamsByOrganizations($id)
+    {
+
+        $teams = DB::table("teams")
+                ->join("organizations", "teams.organizations_id", "=", "organizations.id")
+                ->where('organizations.id', '=', $id)
+                ->select("teams.name", "teams.id")
+                ->get();
 
 		return view('teams', compact('teams'));
     }
@@ -74,6 +89,7 @@ class TeamController extends Controller
         $team = new Team();
         $team->name = $request->name;
         $team->organizations_id = $request->organization_id;
+        $team->organization_leaders_id = AppUser::user()->id;
         $team->coaches_id = $coaches->id;
         $team->save();
         return redirect()->route('trainings');
@@ -121,6 +137,38 @@ class TeamController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $coach_id = DB::table("coaches")
+        ->join("teams", "coaches.id","=","teams.coaches_id")
+        ->where("teams.coaches_id", "=","coaches.id")
+        ->where("teams.id","=", $id)
+        ->select("*")
+        ->get();
+        Coach::findOrFail($coach_id)->delete();
+
+        $attendance_training = DB::table("team_player_attendance_trainings")
+        ->join("trainings","team_player_attendance_trainings.training_id","=","trainings.id")
+        ->join("teams","trainings.team_id","=", "teams.id")
+        ->where("teams.id","=", $id)
+        ->select("*")
+        ->get();
+        TeamPlayerAttendanceTraining::findOrFail($attendance_training)->delete();
+
+        $trainings = DB::table("trainings")
+        ->join("teams","trainings.team_id","=","teams.id")
+        ->where("teams.id","=", $id)
+        ->select("*")
+        ->get();
+        Training::findOrFail($trainings)->delete();
+
+        $team_players = DB::table("team_players")
+        ->join("teams","team_players.teams_id","=", "teams.id")
+        ->where("teams.id", "=", $id)
+        ->select("*")
+        ->get();
+        TeamPlayer::findOrFail($team_players)->delete();
+
+        Team::findOrFail($id)->delete();
+
+        return redirect('myteams/organizations');
     }
 }

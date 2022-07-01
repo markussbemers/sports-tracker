@@ -19,7 +19,7 @@
                     </div>
                 
                     <div>
-                        <x-label for="name" :value="__('Team Name')" />
+                        <x-label for="name" :value="__('messages.Team Name')" />
                         <x-input id="name" class="block mt-1 w-full" type="text" name="name" required autofocus/>
                     </div>
                     <x-button class="ml-3 mt-3">

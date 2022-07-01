@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AppUser;
 use Illuminate\Http\Request;
 
 class AppUserController extends Controller
@@ -34,7 +35,7 @@ class AppUserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
     }
 
     /**

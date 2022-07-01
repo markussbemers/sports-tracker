@@ -29,5 +29,6 @@ return [
     'Already registered?' => 'Already registered?',
     'Profile' => 'Profile',
     'Sports types' => 'Sports types',
-    
+    'My Organizations' => 'My Organizations',
+    'Delete' => 'Delete',
 ];
