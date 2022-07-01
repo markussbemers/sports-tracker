@@ -18,7 +18,7 @@
                         {{ __('messages.Create an organization') }}
                     </x-nav-link>
                     <x-nav-link :href="route('playing_teams')" :active="request()->routeIs('playing_teams')">
-                        {{ __('Playing Teams') }}
+                        {{ __('messages.Playing Teams') }}
                     </x-nav-link>
                     <x-nav-link :href="route('organizations')" :active="request()->routeIs('organizations')">
                         {{ __('messages.My Organizations') }}
@@ -97,6 +97,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="route('organizations')" :active="request()->routeIs('organizations')">
                 {{ __('messages.My Organizations') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('playing_teams')" :active="request()->routeIs('playing_teams')">
+                {{ __('messages.Playing Teams') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link :href="url('lang/lv')">
                 LV

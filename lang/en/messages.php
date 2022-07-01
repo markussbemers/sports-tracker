@@ -46,4 +46,5 @@ return [
     'Team_id' => 'Team_id',
     'Current Coach' => 'Current Coach',
     'New Coach Name' => 'New Coach Name',
+    'Playing Teams' => 'Playing Teams',
 ];
