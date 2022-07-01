@@ -20,6 +20,9 @@
                     <x-nav-link :href="route('playing_teams')" :active="request()->routeIs('playing_teams')">
                         {{ __('messages.Playing Teams') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('coaching_teams')" :active="request()->routeIs('coaching_teams')">
+                        {{ __('Coaching Teams') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('organizations')" :active="request()->routeIs('organizations')">
                         {{ __('messages.My Organizations') }}
                     </x-nav-link>

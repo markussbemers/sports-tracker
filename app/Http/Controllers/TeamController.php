@@ -213,17 +213,51 @@ class TeamController extends Controller
                 ->where("app_users_id", $app_user->id)
                 ->get();
 
-        echo $teams;
 
 		return view('playing_teams', compact('teams'));
     }
 
+    public function showCoachingTeams() {
+        $name = Auth::user()->name;
+        $app_user = AppUser::where('name', $name)->first();
+
+        $teams = DB::table("teams")
+                ->join("coaches", "teams.coaches_id", "=", "coaches.id")
+                ->where("coaches.app_user_id", $app_user->id)
+                ->select("teams.id", "teams.name")
+                ->get();
+
+		return view('coaching_teams', compact('teams'));
+    }
+
     public function willAlwaysAttend($team_id) {
+
+        $name = Auth::user()->name;
+        $app_user = AppUser::where('name', $name)->first();
+
+        $affected = DB::table('team_players')
+        ->where('app_users_id', $app_user->id)
+        ->where('teams_id', $team_id)
+        ->update(['is_default_attending' => 1]);
+
+
+        return redirect()->action([TeamController::class, 'showPlayingTeams']);
 
     }
 
     public function willNeverAttend($team_id) {
         
+        $name = Auth::user()->name;
+        $app_user = AppUser::where('name', $name)->first();
+
+        $affected = DB::table('team_players')
+        ->where('app_users_id', $app_user->id)
+        ->where('teams_id', $team_id)
+        ->update(['is_default_attending' => 0]);
+
+
+        return redirect()->action([TeamController::class, 'showPlayingTeams']);
+
     }
 
     /**
@@ -297,7 +331,6 @@ class TeamController extends Controller
             $leader = ", Organizācijas vadītājs";
         }
 
-
         if ($isCoach OR $isOrganizationLeader) {
             return view('edit_team', compact('team', 'coach', 'leader', 'message', 'team_players', 'message2', 'coaches', 'trainings', 'countTrainingAttend'));
         }
@@ -320,21 +353,21 @@ class TeamController extends Controller
         $name = Auth::user()->name;
         $app_user = AppUser::where('name', $name)->first();
         
-        DB::table("coaches")
-        ->join("teams", "coaches.id","=","teams.coaches_id")
-        ->join("app_users","coaches.app_user_id","=","app_users.id")
-        ->where("coaches.app_user_id", "=", $app_user->id)
-        ->select("*")->delete()
-        ->first();
+        // DB::table("coaches")
+        // ->join("teams", "coaches.id","=","teams.coaches_id")
+        // ->join("app_users","coaches.app_user_id","=","app_users.id")
+        // ->where("coaches.app_user_id", "=", $app_user->id)
+        // ->select("*")->delete()
+        // ->first();
         
         /*
-        $attendance_training = DB::table("team_player_attendance_trainings")
-        ->join("trainings","team_player_attendance_trainings.training_id","=","trainings.id")
-        ->join("teams","trainings.team_id","=", "teams.id")
-        ->where("teams.id","=", $id)
-        ->select("*")
-        ->get();
-        TeamPlayerAttendanceTraining::findOrFail($attendance_training)->each()->delete();
+        // $attendance_training = DB::table("team_player_attendance_trainings")
+        // ->join("trainings","team_player_attendance_trainings.training_id","=","trainings.id")
+        // ->join("teams","trainings.team_id","=", "teams.id")
+        // ->where("teams.id","=", $id)
+        // ->select("*")
+        // ->get();
+        // TeamPlayerAttendanceTraining::findOrFail($attendance_training)->each()->delete();
 
         $trainings = DB::table("trainings")
         ->join("teams","trainings.team_id","=","teams.id")
@@ -372,8 +405,6 @@ class TeamController extends Controller
 
     public function changeCoach(Request $request)
     {
-        echo $request->coach_name;
-        echo $request->team_id;
 
         $app_user = AppUser::where('name', $request->coach_name)->first();
 
