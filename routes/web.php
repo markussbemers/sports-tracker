@@ -35,6 +35,8 @@ Route::get('/teams', function () {
 
 Route::get('coach', [CoachController::class, 'index'])->middleware(['auth'])->name('coach');
 
+Route::get('playing_teams', [TeamController::class, 'showPlayingTeams'])->middleware(['auth'])->name('playing_teams');
+
 
 Route::get('organizations', [OrganizationController::class, 'index'])->middleware(['auth'])->name('organizations');
 Route::get('teams/organizations/{id}', [TeamController::class, 'getTeamsByOrganizations'])->middleware(['auth'])->name('teams/organizations/{id}');
@@ -57,6 +59,10 @@ Route::post('add_training', [TeamController::class, 'addTraining']);
 
 Route::post('will_attend/{training_id?}', [TeamController::class, 'willAttend']);
 Route::post('wont_attend/{training_id?}', [TeamController::class, 'wontAttend']);
+
+
+Route::post('will_always_attend/{team_id?}', [TeamController::class, 'willAlwaysAttend']);
+Route::post('will_never_attend/{team_id?}', [TeamController::class, 'willNeverAttend']);
 
 
 require __DIR__.'/auth.php';

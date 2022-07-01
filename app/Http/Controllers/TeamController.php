@@ -203,6 +203,29 @@ class TeamController extends Controller
 
     }
 
+    public function showPlayingTeams() {
+        
+        $name = Auth::user()->name;
+        $app_user = AppUser::where('name', $name)->first();
+
+        $teams = DB::table("team_players")
+                ->join("teams", "team_players.teams_id", "=", "teams.id")
+                ->where("app_users_id", $app_user->id)
+                ->get();
+
+        echo $teams;
+
+		return view('playing_teams', compact('teams'));
+    }
+
+    public function willAlwaysAttend($team_id) {
+
+    }
+
+    public function willNeverAttend($team_id) {
+        
+    }
+
     /**
      * Display the specified resource.
      *
