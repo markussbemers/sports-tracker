@@ -36,6 +36,8 @@ Route::get('/teams', function () {
 Route::get('coach', [CoachController::class, 'index'])->middleware(['auth'])->name('coach');
 
 Route::get('playing_teams', [TeamController::class, 'showPlayingTeams'])->middleware(['auth'])->name('playing_teams');
+Route::get('coaching_teams', [TeamController::class, 'showCoachingTeams'])->middleware(['auth'])->name('coaching_teams');
+
 
 
 Route::get('organizations', [OrganizationController::class, 'index'])->middleware(['auth'])->name('organizations');
