@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\AppUser;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CoachController extends Controller
 {
@@ -13,7 +16,17 @@ class CoachController extends Controller
      */
     public function index()
     {
-        //
+        $name = Auth::user()->name;
+        $app_user = AppUser::where('name', $name)->first();
+
+        $teams = DB::table("teams")
+        ->join("coaches", "teams.coaches_id", "=", "coaches.id")
+        ->join("app_users","coaches.app_user_id","=", "app_users.id")
+        ->where("coaches.app_user_id","=", $app_user->id)
+        ->select("teams.name","teams.id")
+        ->get();
+        
+        return view('coach',  compact('teams'));
     }
 
     /**

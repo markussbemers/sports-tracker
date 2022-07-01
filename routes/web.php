@@ -7,6 +7,7 @@ use App\Http\Controllers\OrganizationController;
 use App\Http\Controllers\TrainingController;
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\AppUserController;
+use App\Http\Controllers\CoachController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,6 +33,9 @@ Route::get('/teams', function () {
     return view('teams');
 })->middleware(['auth'])->name('teams');
 
+Route::get('coach', [CoachController::class, 'index'])->middleware(['auth'])->name('coach');
+
+
 Route::get('organizations', [OrganizationController::class, 'index'])->middleware(['auth'])->name('organizations');
 Route::get('teams/organizations/{id}', [TeamController::class, 'getTeamsByOrganizations'])->middleware(['auth'])->name('teams/organizations/{id}');
 Route::post('destroy_team/{id}', [TeamController::class, 'destroyTeam']);
@@ -44,7 +48,9 @@ Route::resource('create_team', TeamController::class);
 Route::get('create_team', [TeamController::class, 'create'])->middleware(['auth'])->name('create_team');
 
 Route::get('edit_team/{id}/{message?}/{message2?}', [TeamController::class, 'edit'])->middleware(['auth'])->name('edit_team');
-Route::post('add_palyer', [TeamController::class, 'addPlayer']);
+
+Route::post('add_player', [TeamController::class, 'addPlayer']);
+
 Route::post('destroy_player/{id}/{team_id?}', [TeamController::class, 'destroyPlayer']);
 Route::post('change_coach', [TeamController::class, 'changeCoach']);
 Route::post('add_training', [TeamController::class, 'addTraining']);

@@ -1,7 +1,9 @@
 ﻿<x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Organization Teams') }}
+
+            {{ __('messages.Organization Teams') }}
+
         </h2>
     </x-slot>
 
@@ -13,7 +15,9 @@
                         <div class="team-name">{{ $team->name }}
                         <form method="POST" action="{{ action([App\Http\Controllers\TeamController::class, 'destroyTeam'], $team->id) }}">
                             @csrf
-                                <x-button type="submit" value="delete">delete</x-button>
+
+                                <x-button type="submit" value="delete">{{ __('messages.Delete') }}</x-button>
+
                         </form>
                         </div>
                     </div>
