@@ -11,10 +11,6 @@
                 @foreach($teams as $team)
                 <div class="p-6 bg-white border-b border-gray-200">
                     <div class="team-name">{{ $team->name }}</div>
-                    <form method="POST" action="{{ action([App\Http\Controllers\TeamController::class, 'destroy'], $team->id)}}">
-                        @csrf @method('DELETE')
-                        <x-button type="submit" value="delete">{{ __('messages.Delete') }}</x-button>
-                    </form>
                 </div>
                 @endforeach
             </div>

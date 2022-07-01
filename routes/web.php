@@ -34,6 +34,8 @@ Route::get('/teams', function () {
 
 Route::get('organizations', [OrganizationController::class, 'index'])->middleware(['auth'])->name('organizations');
 Route::get('teams/organizations/{id}', [TeamController::class, 'getTeamsByOrganizations'])->middleware(['auth'])->name('teams/organizations/{id}');
+Route::post('destroy_team/{id}', [TeamController::class, 'destroyTeam']);
+
 
 Route::resource('create_organization', OrganizationController::class);
 Route::get('create_organization', [OrganizationController::class, 'create'])->middleware(['auth'])->name('create_organization');

@@ -11,7 +11,6 @@ use App\Models\Organization;
 use App\Models\AppUser;
 use App\Models\TeamPlayerAttendanceTraining;
 use App\Models\TeamPlayer;
-use App\Models\Training;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -49,7 +48,7 @@ class TeamController extends Controller
                 ->select("teams.name", "teams.id")
                 ->get();
 
-		return view('teams', compact('teams'));
+		return view('myteams', compact('teams'));
     }
 
     public function create()
@@ -228,7 +227,7 @@ class TeamController extends Controller
         //
     }
 
-    public function destroy($id)
+    public function destroyTeam($id)
     {
         $coach_id = DB::table("coaches")
         ->join("teams", "coaches.id","=","teams.coaches_id")
